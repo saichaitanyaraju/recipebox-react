@@ -4,6 +4,8 @@ import logo from './logo.svg';
 import './App.css';
 import Footer from './components/FooterComponent.js';
 import Header from './components/HeaderComponent.js';
+import RecipeItem from './components/RecipeItemComponent.js';
+import RecipeListItem from './components/RecipeListItemComponent.js';
 import recipes from './storage/recipes.js';
 
 class App extends Component {
