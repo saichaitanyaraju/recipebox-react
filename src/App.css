@@ -1,0 +1,363 @@
+@import url("https://fonts.googleapis.com/css?family=Lora|Source+Sans+Pro");
+body {
+  font-family: "Source Sans Pro", sans-serif;
+  padding: 0;
+  margin: 0;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+.navbar {
+  padding: 5px 30px;
+}
+.navbar._transparent {
+  margin-bottom: -63px;
+  position: relative;
+  z-index: 9;
+  color: #FFF;
+}
+
+.navbar-brand {
+  display: inline-block;
+  width: 20%;
+  font-family: "Lora", serif;
+  font-size: 20px;
+}
+
+.navbar-menu {
+  display: inline-block;
+  padding: 0;
+  list-style: none;
+  width: 79%;
+  text-align: right;
+}
+.navbar-menu li {
+  display: inline-block;
+  padding: 0 10px;
+  cursor: pointer;
+}
+.navbar-menu li::after {
+  content: " ";
+  display: block;
+  positon: relative;
+  width: 0%;
+  height: 1px;
+  background-color: #FFF;
+  margin: 0 auto;
+  transition: width 0.35s;
+}
+.navbar-menu li:hover::after {
+  width: 100%;
+}
+.navbar-menu li a {
+  color: #FFF;
+  text-decoration: none;
+}
+
+.hero {
+  background-size: cover;
+  background-repeat: no-repeat;
+  position: relative;
+}
+
+.hero-overflow {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(48, 52, 63, 0.6);
+}
+
+.hero-content {
+  position: relative;
+  padding: 135px 0;
+  text-align: center;
+  color: #FFF;
+}
+.hero-content h1 {
+  font-size: 40px;
+  letter-spacing: 2px;
+  margin-bottom: 0;
+  font-family: "Lora", serif;
+}
+.hero-content h2 {
+  font-weight: 300;
+}
+
+footer {
+  text-align: center;
+  padding: 15px 0;
+  background-color: #344055;
+  color: #FFF;
+}
+footer a {
+  color: #FFF;
+}
+
+.recipes-wrapper::after {
+  content: ' ';
+  display: block;
+  clear: both;
+}
+
+.recipe-box {
+  display: inline-block;
+  float: left;
+  height: 400px;
+  width: 33.3%;
+  position: relative;
+  cursor: pointer;
+  background-size: cover;
+  background-repeat: no-repeat;
+}
+.recipe-box::before {
+  content: ' ';
+  display: block;
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(48, 52, 63, 0.5);
+  transition: all 0.3s;
+}
+.recipe-box:hover .recipe-box-content {
+  bottom: 30px;
+}
+.recipe-box:hover::before {
+  background-color: rgba(48, 52, 63, 0.35);
+}
+
+.recipe-box-content {
+  display: block;
+  padding: 25px;
+  position: absolute;
+  color: #FFF;
+  bottom: 0;
+  transition: all 0.3s;
+}
+
+.recipe-box-title {
+  font-family: "Lora", serif;
+  font-size: 40px;
+}
+
+.recipe-item {
+  width: 100%;
+  height: 100%;
+  position: relative;
+  background: #FFF;
+  z-index: 99;
+}
+
+.recipe-item-close {
+  position: fixed;
+  display: inline-block;
+  top: 25px;
+  right: 25px;
+  clear: both;
+  font-size: 30px;
+  cursor: pointer;
+}
+
+.recipe-item-image,
+.recipe-item-content {
+  height: 100%;
+  float: left;
+  box-sizing: border-box;
+}
+
+.recipe-item-image {
+  width: 40%;
+  background-repeat: no-repeat;
+  background-size: cover;
+  position: fixed;
+}
+
+.recipe-item-content {
+  color: #30343F;
+  height: 100%;
+  width: 60%;
+  margin-left: 40%;
+  padding: 70px 50px;
+}
+
+.recipe-item-title {
+  font-size: 45px;
+  font-weight: 600;
+  font-family: "Lora", serif;
+  margin-bottom: 20px;
+}
+
+.recipe-item-description {
+  font-size: 20px;
+}
+
+.recipe-item-ingredients,
+.recipe-item-instruction {
+  display: inline-block;
+}
+.recipe-item-ingredients h2,
+.recipe-item-instruction h2 {
+  font-family: "Lora", serif;
+  margin-bottom: 0;
+  font-size: 23px;
+}
+
+.recipe-item-ingredients {
+  float: left;
+}
+
+.recipe-item-instruction {
+  width: 60%;
+  padding-left: 1px;
+  font-size: 20px;
+  float: right;
+}
+
+.ingredients-list {
+  padding-left: 22px;
+}
+.ingredients-list li {
+  font-size: 20px;
+}
+
+.recipe-addNewItem .recipe-add-hero {
+  position: relative;
+  padding: 130px 0;
+  background-size: cover;
+  background-repeat: no-repeat;
+}
+.recipe-addNewItem .recipe-add-hero .recipe-add-hero-overflow {
+  content: ' ';
+  position: absolute;
+  top: 0;
+  left: 0;
+  display: block;
+  width: 100%;
+  height: 100%;
+  background: rgba(37, 38, 39, 0.6);
+}
+
+.recipe-add-title {
+  margin: 0;
+  font-family: "Lora", serif;
+  color: #FFF;
+  position: relative;
+  text-align: center;
+  font-size: 30px;
+  font-weight: 400;
+  letter-spacing: 1.2;
+}
+
+.recipe-add-content {
+  max-width: 600px;
+  margin: 0 auto;
+  padding: 20px;
+}
+
+.recipe-form--edit {
+  margin-top: 25px;
+}
+
+.form-group {
+  margin-bottom: 15px;
+}
+
+input[type="text"], textarea {
+  width: 100%;
+  padding-left: 10px;
+  border: 1px solid #30343F;
+  border-radius: 3px;
+}
+
+textarea {
+  resize: none;
+  height: 80px;
+  padding: 10px;
+}
+
+input[type="text"] {
+  height: 40px;
+}
+
+.buttons-group {
+  text-align: center;
+}
+
+.btn {
+  display: inline-block;
+  padding: 8px 17px;
+  margin: 0 5px;
+  border: 1px solid;
+  cursor: pointer;
+}
+
+.btn-add {
+  background-color: limegreen;
+  color: #FFF;
+  border-color: limegreen;
+}
+
+.btn-cancel {
+  background-color: transparent;
+  color: #30343F;
+  border-color: dark;
+}
+
+.recipe-item-menu {
+  padding: 0 0 10px 0;
+}
+.recipe-item-menu span {
+  cursor: pointer;
+  margin-right: 10px;
+  color: rgba(52, 64, 85, 0.6);
+  transition: all 0.3s ease-in-out;
+}
+.recipe-item-menu span:hover {
+  color: #344055;
+}
+
+@media screen and (max-width: 1200px) {
+  .recipe-item-instruction {
+    display: block;
+    width: 100%;
+  }
+}
+@media screen and (max-width: 800px) {
+  .recipe-box {
+    width: 50%;
+  }
+}
+@media screen and (max-width: 600px) {
+  .recipe-box {
+    width: 100%;
+  }
+
+  .recipe-item-image {
+    height: 250px !important;
+    display: block;
+    width: 100%;
+    position: static;
+    background-position: center;
+  }
+
+  .recipe-item-content {
+    display: block;
+    width: 100%;
+    margin: 0;
+  }
+
+  .recipe-item-instruction {
+    display: block;
+    width: 100%;
+  }
+}
+@media screen and (min-width: 1100px) {
+  .recipe-box {
+    width: 25%;
+  }
+}
