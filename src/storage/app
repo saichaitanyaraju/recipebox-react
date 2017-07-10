@@ -1,0 +1,474 @@
+function update() {
+  localStorage.setItem("recipeBox", JSON.stringify(recipes));
+  var box = [];
+  for (var i=0; i < recipes.length; i++) {
+    box.push(recipes[i]);
+  }
+  var currentRecipes = localStorage.getItem('recipeBox');
+  console.log(recipes);
+
+  ReactDOM.render(<Home recipes={box} />, document.getElementById('app'));
+}
+
+function softUpdate() {
+  localStorage.setItem("recipeBox", JSON.stringify(recipes));
+}
+
+class Header extends React.Component {
+  render() {
+    return (
+      <nav className="navbar _transparent">
+        <div className="navbar-brand">
+          {this.props.brandname}
+        </div>
+        <ul className="navbar-menu">
+          <li>Home</li>
+          <li>Recipes</li>
+          <li onClick={this.props.showForm.bind(this)}>Add New</li>
+        </ul>
+      </nav>
+    );
+  }
+}
+
+class Footer extends React.Component {
+  render() {
+    return(
+      <footer className="footer">
+        <div class="footer-signature">
+          Made with <span>&hearts;</span> by <a href="https://twitter.com/mrkaluzny">@mrkaluzny</a>
+        </div>
+      </footer>
+    );
+  }
+}
+
+class Hero extends React.Component {
+  render() {
+    const heroStyle = {
+      backgroundImage: 'url(' + this.props.hero.image + ')'
+    }
+
+    return(
+      <section className="hero" style={heroStyle}>
+        <div className="hero-overflow"></div>
+        <div className="hero-content">
+          <h1>{this.props.hero.welcome + this.props.brand}</h1>
+          <h2>{this.props.hero.subtitle}</h2>
+        </div>
+      </section>
+    );
+  }
+}
+
+class RecipeDescription extends React.Component {
+  render() {
+
+    var ingredients = this.props.recipe.ingredients.map(function(ingredient) {
+      return (
+        <li>{ingredient}</li>
+      );
+    });
+
+    return(
+      <div className="recipe-item-content">
+          <div className="recipe-item-title">
+            {this.props.recipe.name}
+          </div>
+          <div className="recipe-item-menu">
+            <span onClick={this.props.edit.bind(this, this.props.recipe)}>Edit</span>
+            <span onClick={this.props.remove.bind(this, this.props.recipe)}>Remove</span>
+          </div>
+          <div className="recipe-item-description">
+            {this.props.recipe.desc.split('\n').map(function(item) {
+              return (
+                <span>
+                  {item}
+                  <br />
+                 </span>
+              ) })}
+          </div>
+          <div className="recipe-item-ingredients">
+            {this.props.recipe.ingredients ? <h2>Ingredients</h2> : null}
+            <ul className="ingredients-list">
+              {ingredients}
+            </ul>
+          </div>
+          <div className="recipe-item-instruction">
+            {this.props.recipe.instruction ? <h2>Instruction</h2> : null}
+            {this.props.recipe.instruction ? this.props.recipe.instruction.split('\n').map(function(item) {
+              return (
+                <span>
+                  {item}
+                  <br />
+                 </span>
+              ) }) : null}
+          </div>
+        </div>
+    );
+  }
+}
+
+class RecipeItem extends React.Component {
+  render()  {
+
+    const bcg = {
+      backgroundImage: 'url(' + this.props.recipe.image + ')',
+      height:  this.props.imgHeight
+    }
+
+    var visibility = this.props.editVisible;
+
+
+    return(
+      <section className="recipe-item">
+        <div className="recipe-item-close" onClick={this.props.hide}>✖</div>
+        <span></span>
+        <div className="recipe-item-image" style={bcg}></div>
+        {!this.props.editVisible ? <RecipeDescription
+                                     edit = {this.props.edit}
+                                     remove = {this.props.remove}
+                                     recipe = {this.props.recipe} /> : <EditRecipe
+                                                                        recipe = {this.props.recipe}
+                                                                         hideEditForm = {this.props.hideEditForm}
+                                                                         submitEdit = {this.props.submitEdit}
+                                                                        /> }
+      </section>
+    );
+  }
+}
+
+class RecipeListItem extends React.Component {
+
+  render() {
+    const bcg = {
+      backgroundImage: 'url(' + this.props.recipe.image + ')'
+    }
+
+    const short = this.props.recipe.desc.substr(0,120) + "...";
+
+    return(
+      <div className="recipe-box" style={bcg} onClick={this.props.showRecipe.bind(this,this.props.recipe)}>
+        <div className="recipe-box-content">
+          <div className="recipe-box-title">
+            {this.props.recipe.name}
+          </div>
+          <div className="recipe-box-description">
+            {short}
+          </div>
+        </div>
+      </div>
+    );
+  }
+}
+
+class NewRecipe extends React.Component {
+  render() {
+    const bcg = {
+      backgroundImage: 'url(' + this.props.image + ')'
+    }
+
+    return(
+      <section className="recipe-addNewItem">
+        <div className="recipe-add-hero" style={bcg}>
+          <div className="recipe-add-hero-overflow"></div>
+          <h2 className="recipe-add-title">Add a new recipe!</h2>
+        </div>
+        <div className="recipe-add-content">
+          <form className="recipe-form" onSubmit={this.props.submitForm.bind(this)}>
+            <div className="form-group">
+              <input
+                type="text"
+                name="name"
+                id="title"
+                placeholder="Recipe Name" />
+            </div>
+            <div className="form-group">
+              <input
+                type="text"
+                name="image"
+                id="image"
+                placeholder="Link to image" />
+            </div>
+            <div className="form-group">
+              <textarea
+                placeholder="Description"
+                name="desc"
+                id="desc"
+                ></textarea>
+            </div>
+            <div className="form-group">
+              <textarea
+                name="ingredients"
+                id="ingredients"
+                placeholder="Ingredients">
+              </textarea>
+            </div>
+            <div className="form-group">
+              <textarea
+                name="instruction"
+                id="instruction"
+                placeholder="Instruction"></textarea>
+            </div>
+            <div className="form-group buttons-group">
+              <button className="btn btn-add">Add</button>
+              <button className="btn btn-cancel" onClick={this.props.hideForm.bind(this)}>Cancel</button>
+            </div>
+          </form>
+        </div>
+      </section>
+    );
+  }
+}
+
+class EditRecipe extends React.Component {
+  render() {
+
+    var title = this.props.recipe.name,
+          image = this.props.recipe.image,
+          desc  = this.props.recipe.desc,
+          ingr  = this.props.recipe.ingredients,
+          inst  = this.props.recipe.instruction;
+    var recipeID = this.props.id;
+
+
+    return(
+      <div className="recipe-item-content">
+        <form className="recipe-form recipe-form--edit" onSubmit={ (e) => this.props.submitEdit(e, this.props.recipe.id)}>
+            <div className="form-group">
+              <input
+                type="text"
+                name="etitle"
+                id="etitle"
+                placeholder="Recipe Name"
+                defaultValue= {title}/>
+            </div>
+            <div className="form-group">
+              <input
+                type="text"
+                name="eimage"
+                id="eimage"
+                placeholder="Link to image"
+                defaultValue= {image}/>
+            </div>
+            <div className="form-group">
+              <textarea
+                placeholder="Description"
+                name="edesc"
+                id="edesc"
+                defaultValue = {desc}
+                ></textarea>
+            </div>
+            <div className="form-group">
+              <textarea
+                name="eingredients"
+                id="eingredients"
+                placeholder="Ingredients"
+                defaultValue={ingr}
+               ></textarea>
+            </div>
+            <div className="form-group">
+              <textarea
+                name="einstruction"
+                id="einstruction"
+                placeholder="Instruction"
+                defaultValue={inst}
+               ></textarea>
+            </div>
+            <div className="form-group buttons-group">
+              <button className="btn btn-add" type="submit">Save Changes</button>
+              <button
+                className="btn btn-cancel"
+                onClick = {this.props.hideEditForm}>Cancel</button>
+            </div>
+          </form>
+      </div>
+    );
+  }
+}
+
+class Home extends React.Component {
+  constructor() {
+    super();
+    this.state = {
+      brand: 'RecipeBox',
+      singleRecipeVisible: false,
+      addRecipeVisible: false,
+      editRecipeVisible: false,
+      windowHeight: '',
+      currentRecipe: {},
+      newRecipe: {},
+      addNewImage: "https://d2lm6fxwu08ot6.cloudfront.net/img-thumbs/960w/STEV4625Y8.jpg",
+      hero: {
+        image: 'https://d2lm6fxwu08ot6.cloudfront.net/img-thumbs/960w/4VWCJK0TLE.jpg',
+        welcome: 'Welcome to ',
+        subtitle: "Best place to explore worlds' taste!"
+      }
+    }
+
+    this.showRecipe = this.showRecipe.bind(this);
+    this.showEditForm = this.showEditForm.bind(this);
+    this.hideEditForm = this.hideEditForm.bind(this);
+    this.hideRecipe = this.hideRecipe.bind(this);
+    this.deleteRecipe = this.deleteRecipe.bind(this);
+
+  }
+
+  showForm() {
+    this.setState({addRecipeVisible: true}, function() {
+      console.log(`Showing recipe: ${this.state.addRecipeVisible}`);
+    });
+  }
+
+  showEditForm() {
+    this.setState({
+      editRecipeVisible: true
+    });
+  }
+
+  hideEditForm(e) {
+    e.preventDefault();
+    this.setState({
+      editRecipeVisible: false
+    });
+  }
+
+  submitForm(e) {
+    e.preventDefault();
+    var title = document.getElementById('title').value,
+        img = document.getElementById('image').value,
+        description = document.getElementById('desc').value,
+        ingredients = document.getElementById('ingredients').value.split(','),
+        instruction = document.getElementById('instruction').value,
+        id = Math.floor(1000 + Math.random() * 9000) + recipes.length + 1;
+
+    var newRecipe = {
+      id: id,
+      name: title,
+      image: img,
+      desc: description,
+      ingredients: ingredients,
+      instruction: instruction
+    };
+
+    this.pushNewRecipe(newRecipe);
+    this.setState({addRecipeVisible: false});
+  }
+
+  editForm(e, recipeID) {
+    e.preventDefault();
+    console.log('EDITING RECIPE: ' + recipeID);
+    var title = document.getElementById('etitle').value,
+        img = document.getElementById('eimage').value,
+        description = document.getElementById('edesc').value,
+        ingredients = document.getElementById('eingredients').value.split(','),
+        instruction = document.getElementById('einstruction').value;
+
+    console.log('New name: ' + title);
+
+    for (var i = 0; i < recipes.length; i++ ) {
+      console.log(`Looking.....`);
+      if (recipes[i].id == recipeID) {
+        console.log('Found it! ' + recipeID);
+        recipes[i].name = title;
+        recipes[i].image = img;
+        recipes[i].desc = description;
+        recipes[i].ingredients = ingredients;
+        recipes[i].instruction = instruction;
+        console.log("Attributes changed!");
+        break;
+      }
+    }
+
+    softUpdate();
+
+    this.setState({editRecipeVisible: false});
+
+    console.log(`Function finished: ${recipes.length}`);
+  }
+
+  pushNewRecipe(obj) {
+    recipes.push(obj);
+    update();
+  }
+
+  hideForm(e) {
+    e.preventDefault();
+    this.setState({addRecipeVisible: false}, function() {
+      console.log(`Showing recipe: ${this.state.addRecipeVisible}`);
+    });
+  }
+
+   hideRecipe() {
+     console.log('Hiding');
+     this.setState({
+       singleRecipeVisible: false,
+       editRecipeVisible: false
+     }, function() {
+      console.log(this.state.singleRecipeVisible);
+    });
+
+   }
+
+  deleteRecipe(obj) {
+    recipes = recipes.filter(function(el){
+      console.log("Filtering " + el.name);
+      console.log("Result " + (el.name !== obj.name));
+      return el.name !== obj.name;
+    });
+    update();
+
+    this.setState({singleRecipeVisible: false}, function() {
+      console.log("should be gone now..");
+    });
+  }
+
+  showRecipe(recipe) {
+   console.log(recipe);
+    this.setState({singleRecipeVisible: true, currentRecipe: recipe, windowHeight: window.innerHeight+'px'}, function() {
+      console.log(this.state.singleRecipeVisible);
+    });
+    window.scrollTo(0, 0);
+  }
+
+  render() {
+    console.log(this.props.recipes.length);
+
+    var recipelist = this.props.recipes.map(function(recipe) {
+
+         return (
+            <RecipeListItem recipe={recipe} key={recipe.id} showRecipe={this.showRecipe} />
+         );
+      }.bind(this));
+    return(
+      <div>
+        <Header
+          brandname={this.state.brand}
+          showForm={this.showForm.bind(this)}  />
+
+        {this.state.addRecipeVisible ? <NewRecipe
+                                         image={this.state.addNewImage}
+                                         hideForm={this.hideForm.bind(this)}
+                                         submitForm={this.submitForm.bind(this)}
+                                        /> : null}
+
+        {this.state.singleRecipeVisible ? <RecipeItem
+                                            recipe={this.state.currentRecipe}
+                                            hide={this.hideRecipe}
+                                            imgHeight={this.state.windowHeight}
+                                            remove={this.deleteRecipe}
+                                            edit = {this.showEditForm}
+                                            editVisible = {this.state.editRecipeVisible}
+                                            hideEditForm = {this.hideEditForm}
+                                            submitEdit = {this.editForm.bind(this)}/> : null}
+
+        {!this.state.singleRecipeVisible ? <div className="recipes-wrapper"> {recipelist} </div> : null}
+        {!this.state.singleRecipeVisible ? <Footer /> : null}
+
+      </div>
+    );
+  }
+}
+
+update();
+//ReactDOM.render(<Home recipes={recipes} />, document.getElementById('app'));
