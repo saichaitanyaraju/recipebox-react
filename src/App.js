@@ -1,12 +1,14 @@
 import React, { Component } from 'react';
-import React, {DOM} from 'react-dom'
+import ReactDOM from 'react-dom'
 import logo from './logo.svg';
 import './App.css';
 import Footer from './components/FooterComponent.js';
 import Header from './components/HeaderComponent.js';
 import RecipeItem from './components/RecipeItemComponent.js';
 import RecipeListItem from './components/RecipeListItemComponent.js';
-import recipes from './storage/recipes.js';
+import NewRecipe from './components/NewRecipeComponent.js';
+import {update, softUpdate} from './functions/functions.js';
+import { recipes } from './storage/recipes.js';
 
 class App extends Component {
   constructor() {
@@ -89,7 +91,7 @@ class App extends Component {
 
     for (var i = 0; i < recipes.length; i++ ) {
       console.log(`Looking.....`);
-      if (recipes[i].id == recipeID) {
+      if (recipes[i].id ===recipeID) {
         console.log('Found it! ' + recipeID);
         recipes[i].name = title;
         recipes[i].image = img;
@@ -132,7 +134,7 @@ class App extends Component {
    }
 
   deleteRecipe(obj) {
-    recipes = recipes.filter(function(el){
+    var recipes = recipes.filter(function(el){
       console.log("Filtering " + el.name);
       console.log("Result " + (el.name !== obj.name));
       return el.name !== obj.name;
@@ -191,20 +193,5 @@ class App extends Component {
   }
 }
 
-function update() {
-  localStorage.setItem("recipeBox", JSON.stringify(recipes));
-  var box = [];
-  for (var i=0; i < recipes.length; i++) {
-    box.push(recipes[i]);
-  }
-  var currentRecipes = localStorage.getItem('recipeBox');
-  console.log(recipes);
-
-  DOM.render(<App recipes={box} />, document.getElementById('app'));
-}
-
-function softUpdate() {
-  localStorage.setItem("recipeBox", JSON.stringify(recipes));
-}
 
 export default App;

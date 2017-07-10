@@ -1,4 +1,6 @@
 import React, { Component } from 'react';
+import RecipeDescription from './RecipeDescriptionComponent.js'
+import EditRecipe from './EditRecipeComponent.js'
 
 class RecipeItem extends Component {
   render()  {

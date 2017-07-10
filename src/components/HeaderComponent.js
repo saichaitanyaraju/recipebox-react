@@ -5,11 +5,12 @@ class Header extends Component {
     return (
       <nav className="navbar _transparent">
         <div className="navbar-brand">
-          Tets
+          {this.props.brandname}
         </div>
         <ul className="navbar-menu">
           <li>Home</li>
           <li>Recipes</li>
+          <li onClick={this.props.showForm.bind(this)}>Add New</li>
         </ul>
       </nav>
     );
